@@ -101,8 +101,8 @@
     </distributionManagement>
 
     <scm>
-        <developerConnection>scm:git:git://github.com/db-test-utils</developerConnection>
-        <connection>scm:git:git://github.com/db-test-utils</connection>
+        <developerConnection>scm:git:git@github.com:ardas/db-test-utils.git</developerConnection>
+        <connection>scm:git:git@github.com:ardas/db-test-utils.git</connection>
       <tag>db-test-utils-0.0.1</tag>
   </scm>
 
