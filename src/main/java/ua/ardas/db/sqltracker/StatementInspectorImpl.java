@@ -1,4 +1,4 @@
-package ua.ardas.sqltracker;
+package ua.ardas.db.sqltracker;
 
 import org.hibernate.resource.jdbc.spi.StatementInspector;
 
@@ -11,7 +11,6 @@ public class StatementInspectorImpl implements StatementInspector {
 
     @Override
     public String inspect(String sql) {
-        System.out.println("==========> sql: " +sql);
         QUERY_HANDLER.handleSql(sql);
         return sql;
     }

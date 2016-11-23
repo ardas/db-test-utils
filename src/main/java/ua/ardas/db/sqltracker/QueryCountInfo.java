@@ -1,4 +1,4 @@
-package ua.ardas.sqltracker;
+package ua.ardas.db.sqltracker;
 
 import lombok.Getter;
 

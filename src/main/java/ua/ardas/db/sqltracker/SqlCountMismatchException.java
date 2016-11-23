@@ -1,4 +1,4 @@
-package ua.ardas.sqltracker;
+package ua.ardas.db.sqltracker;
 
 /**
  * Created by Igor Dmitriev / Mikalai Alimenkou on 12/13/15

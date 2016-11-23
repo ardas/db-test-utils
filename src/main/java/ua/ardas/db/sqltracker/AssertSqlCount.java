@@ -1,6 +1,6 @@
-package ua.ardas.sqltracker;
+package ua.ardas.db.sqltracker;
 
-import static ua.ardas.sqltracker.QueryCountInfoHolder.getQueryInfo;
+import static ua.ardas.db.sqltracker.QueryCountInfoHolder.getQueryInfo;
 
 /**
  * Created by Igor Dmitriev / Mikalai Alimenkou on 12/6/15
