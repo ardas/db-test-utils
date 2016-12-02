@@ -4,18 +4,13 @@ package ua.ardas.db.sqltracker;
  * Created by Igor Dmitriev / Mikalai Alimenkou on 12/6/15
  */
 public class QueryCountInfoHolder {
-    private static ThreadLocal<QueryCountInfo> queryInfoHolder = new ThreadLocal<QueryCountInfo>() {
-        @Override
-        protected QueryCountInfo initialValue() {
-            return new QueryCountInfo();
-        }
-    };
+    private static QueryCountInfo queryInfo = new QueryCountInfo();
 
     public static QueryCountInfo getQueryInfo() {
-        return queryInfoHolder.get();
+        return queryInfo;
     }
 
     public static void clear() {
-        queryInfoHolder.get().clear();
+        queryInfo.clear();
     }
 }
