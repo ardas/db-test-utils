@@ -15,6 +15,10 @@ public class AssertSqlCount {
         assertSqlCount("select", expectedSelectCount, getQueryInfo().getSelectCount());
     }
 
+    public static void assertSelectCountLessOrEqual(int expectedSelectCount) {
+        assertSqlCountLessOrEqual("select", expectedSelectCount, getQueryInfo().getSelectCount());
+    }
+
     public static void assertUpdateCount(int expectedUpdateCount) {
         assertSqlCount("update", expectedUpdateCount, getQueryInfo().getUpdateCount());
     }
@@ -38,4 +42,9 @@ public class AssertSqlCount {
         }
     }
 
+    private static void assertSqlCountLessOrEqual(String statement, int expectedCount, int actualCount) {
+        if (expectedCount < actualCount) {
+            throw new SqlCountMismatchException(statement, expectedCount, actualCount);
+        }
+    }
 }
