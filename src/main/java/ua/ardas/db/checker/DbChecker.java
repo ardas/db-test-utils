@@ -14,6 +14,7 @@ import org.unitils.reflectionassert.ReflectionComparatorMode;
 
 import java.sql.ResultSetMetaData;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class DbChecker {
@@ -24,22 +25,38 @@ public class DbChecker {
     private static final Log LOG = LogFactory.getLog(DbChecker.class);
 
     public void checkDb(ExpectedData expected, String query, Object... params) {
-        List<List<String>> actual = executeQuery(query, params);
-
-        try {
-            ReflectionAssert.assertReflectionEquals(expected.getData(), actual, ReflectionComparatorMode.IGNORE_DEFAULTS);
-        } catch (AssertionFailedError e) {
-            StringBuilder sb = new StringBuilder("ExpectedData must be:\nnew ExpectedData()\n");
-
-            for (List<String> list : actual) {
-                sb.append(String.format(".addRow(\"%s\")\n", Joiner.on("\", \"").join(list)));
-            }
-
-            LOG.error(sb.toString().replaceAll("\"" + ExpectedData.NULL + "\"", "null"));
-            throw e;
+        for(int i = 0; i < 2; i++) {
+        	try {
+        		doCheckDb(expected, query,params);
+        		return;
+	        } catch (Throwable e) {
+		        try {
+			        TimeUnit.SECONDS.sleep(1);
+		        } catch (InterruptedException e1) {
+			        throw new RuntimeException(e1);
+		        }
+	        }
         }
+
+	    doCheckDb(expected, query,params);
     }
 
+	public void doCheckDb(ExpectedData expected, String query, Object... params) {
+		List<List<String>> actual = executeQuery(query, params);
+
+		try {
+			ReflectionAssert.assertReflectionEquals(expected.getData(), actual, ReflectionComparatorMode.IGNORE_DEFAULTS);
+		} catch (AssertionFailedError e) {
+			StringBuilder sb = new StringBuilder("ExpectedData must be:\nnew ExpectedData()\n");
+
+			for (List<String> list : actual) {
+				sb.append(String.format(".addRow(\"%s\")\n", Joiner.on("\", \"").join(list)));
+			}
+
+			LOG.error(sb.toString().replaceAll("\"" + ExpectedData.NULL + "\"", "null"));
+			throw e;
+		}
+	}
 
     private List<List<String>> executeQuery(String query, Object... params) {
         RowMapper<List<String>> rowMapper = (rs, rowNum) -> {
