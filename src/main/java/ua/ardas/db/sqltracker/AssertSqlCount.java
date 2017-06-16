@@ -11,6 +11,14 @@ public class AssertSqlCount {
         getQueryInfo().clear();
     }
 
+    public static void assertQueryCount(int expected) {
+        assertSqlCount("query", expected, getQueryInfo().countAll());
+    }
+
+    public static void assertQueryCountLessOrEqual(int expected) {
+        assertSqlCountLessOrEqual("query less or equal", expected, getQueryInfo().countAll());
+    }
+
     public static void assertSelectCount(int expectedSelectCount) {
         assertSqlCount("select", expectedSelectCount, getQueryInfo().getSelectCount());
     }
