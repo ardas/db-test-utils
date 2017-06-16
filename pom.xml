@@ -4,7 +4,7 @@
 
     <groupId>ua.ardas</groupId>
     <artifactId>db-test-utils</artifactId>
-    <version>1.6-SNAPSHOT</version>
+    <version>1.6</version>
 
     <packaging>jar</packaging>
 
@@ -100,7 +100,7 @@
     <scm>
         <developerConnection>scm:git:https://github.com/ardas/db-test-utils</developerConnection>
         <connection>scm:git:https://github.com/ardas/db-test-utils</connection>
-        <tag>db-test-utils-1.0</tag>
+        <tag>db-test-utils-1.6</tag>
     </scm>
 
 </project>
