@@ -3,18 +3,15 @@ package ua.ardas.db.checker;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
+import org.awaitility.core.ConditionTimeoutException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
-import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.util.Iterator;
 import java.util.List;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -25,16 +22,13 @@ import static ua.ardas.esputnik.test.utils.ReflectionComparisonMode.IGNORE_DEFAU
 @Component
 @Slf4j
 public class DbChecker {
-    @Autowired
-    private DataSource dataSource;
+    private final DataSource dataSource;
     private JdbcTemplate jdbcTemplate;
 
-    public DbChecker() {
-    }
-
-    @PostConstruct
-    private void postConstruct() {
-        this.createJdbcTemplate(this.dataSource);
+    @Autowired
+    public DbChecker(DataSource dataSource) {
+        this.dataSource = dataSource;
+        this.createJdbcTemplate(dataSource);
     }
 
     protected void createJdbcTemplate(DataSource dataSource) {
@@ -44,55 +38,58 @@ public class DbChecker {
 
     public JdbcTemplate getJdbcTemplate() {
         if (this.jdbcTemplate == null) {
-            this.postConstruct();
+            this.createJdbcTemplate(this.dataSource);
         }
 
         return this.jdbcTemplate;
     }
 
     public void checkDb(final ExpectedData expected, final String query, final Object... params) {
-        await().atMost(10, SECONDS).untilAsserted(() -> {
-            DbChecker.this.checkDbByQuery(expected, query, params);
-        });
+        try {
+            await().atMost(10, SECONDS).untilAsserted(() -> DbChecker.this.checkDbByQuery(expected, query, params));
+        } catch (ConditionTimeoutException error) {
+            List<List<String>> actual = this.executeQuery(query, params);
+            log.error(this.buildExpectedDataMessage(actual));
+            throw error;
+        }
     }
 
     public void checkDbByQuery(ExpectedData expected, String query, Object... params) {
         List<List<String>> actual = this.executeQuery(query, params);
+        this.assertExpectedMatches(expected, actual);
+    }
 
-        try {
-            assertReflectionEquals(expected.getData(), actual, IGNORE_DEFAULTS);
-        } catch (AssertionError var9) {
-            StringBuilder sb = new StringBuilder("ExpectedData must be:\nnew ExpectedData()\n");
-            Iterator<List<String>> var7 = actual.iterator();
+    private void assertExpectedMatches(ExpectedData expected, List<List<String>> actual) {
+        assertReflectionEquals(expected.getData(), actual, IGNORE_DEFAULTS);
+    }
 
-            while (var7.hasNext()) {
-                List<String> list = var7.next();
-                sb.append(String.format(".addRow(\"%s\")\n", Joiner.on("\", \"").join(list)));
-            }
+    private String buildExpectedDataMessage(List<List<String>> actual) {
+        StringBuilder sb = new StringBuilder("ExpectedData must be:\nnew ExpectedData()\n");
 
-            log.error(sb.toString().replaceAll("\"" + ExpectedData.NULL + "\"", "null"));
-            throw var9;
+        for (List<String> list : actual) {
+            sb.append(String.format(".addRow(\"%s\")\n", Joiner.on("\", \"").join(list)));
         }
+
+        return sb.toString().replaceAll("\"" + ExpectedData.NULL + "\"", "null");
     }
 
     private List<List<String>> executeQuery(String query, Object... params) {
-        RowMapper<List<String>> rowMapper = new RowMapper<List<String>>() {
-            public List<String> mapRow(ResultSet rs, int rowNum) throws SQLException {
-                ResultSetMetaData metadata = rs.getMetaData();
-                int columnCount = metadata.getColumnCount();
-                List<String> res = Lists.newArrayList();
+        RowMapper<List<String>> rowMapper = (rs, rowNum) -> {
+            ResultSetMetaData metadata = rs.getMetaData();
+            int columnCount = metadata.getColumnCount();
+            List<String> res = Lists.newArrayList();
 
-                for (int i = 1; i <= columnCount; ++i) {
-                    String val = rs.getString(i);
-                    res.add(null == val ? ExpectedData.NULL : val);
-                }
-
-                return res;
+            for (int i = 1; i <= columnCount; ++i) {
+                String val = rs.getString(i);
+                res.add(null == val ? ExpectedData.NULL : val);
             }
+
+            return res;
         };
         return this.getJdbcTemplate().query(query, params, rowMapper);
     }
 
+    @SuppressWarnings("SqlSourceToSinkFlow")
     public SqlRowSet queryForRowSet(String query, Object... params) {
         return this.getJdbcTemplate().queryForRowSet(query, params);
     }

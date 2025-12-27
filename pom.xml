@@ -22,24 +22,24 @@
         <maven.javadoc.plugin.version>2.10.4</maven.javadoc.plugin.version>
 
         <lombok.version>1.18.42</lombok.version>
-        <spring-context.version>4.3.3.RELEASE</spring-context.version>
-        <spring-jdbc.version>4.3.4.RELEASE</spring-jdbc.version>
-        <guava.version>20.0</guava.version>
-        <junit-jupiter.version>5.9.3</junit-jupiter.version>
+        <spring-context.version>5.3.27</spring-context.version>
+        <spring-jdbc.version>5.3.27</spring-jdbc.version>
+        <guava.version>31.1-jre</guava.version>
         <awaitility.version>4.2.0</awaitility.version>
         <slf4j-api.version>1.7.36</slf4j-api.version>
-        <h2.version>1.4.200</h2.version>
 
         <!-- TESTS -->
+        <junit-jupiter.version>5.9.3</junit-jupiter.version>
         <es-test-utils.version>2.0.0</es-test-utils.version>
         <assertj-core.version>3.25.3</assertj-core.version>
         <mockito-core.version>4.5.1</mockito-core.version>
+        <h2.version>1.4.200</h2.version>
     </properties>
 
     <scm>
-        <developerConnection>scm:git:https://github.com/ardas/db-test-utils</developerConnection>
         <connection>scm:git:https://github.com/ardas/db-test-utils</connection>
-        <tag>db-test-utils-1.6</tag>
+        <developerConnection>scm:git:https://github.com/ardas/db-test-utils</developerConnection>
+        <url>https://github.com/ardas/db-test-utils</url>
     </scm>
 
     <build>
@@ -103,20 +103,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-            <scope>provided</scope>
-            <optional>true</optional>
-        </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${slf4j-api.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>${spring-context.version}</version>
@@ -142,6 +128,21 @@
             <groupId>ua.ardas.esputnik</groupId>
             <artifactId>es-test-utils</artifactId>
             <version>${es-test-utils.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j-api.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+            <optional>true</optional>
         </dependency>
 
         <!-- TESTS -->

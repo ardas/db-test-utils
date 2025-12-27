@@ -23,8 +23,7 @@ class DbCheckerTest {
     @BeforeEach
     void setUp() {
         DataSource dataSource = createDataSource();
-        dbChecker = new DbChecker();
-        dbChecker.createJdbcTemplate(dataSource);
+        dbChecker = new DbChecker(dataSource);
         jdbcTemplate = dbChecker.getJdbcTemplate();
         jdbcTemplate.execute("create table sample (id int primary key, label varchar(255))");
     }
