@@ -18,9 +18,9 @@ private DbChecker dbChecker;
 @Test
 public void check_contacts_row() {
     dbChecker.checkDb(
-        DbChecker.expectedData()
+        new ExpectedData()
             .addRow("1", "test@example.com")
-            .addRow("2", DbChecker.ExpectedData.NULL),
+            .addRow("2", ExpectedData.NULL),
         "select ContactId, Email from dbo.Contacts where ContactId in (?, ?)",
         1, 2
     );
