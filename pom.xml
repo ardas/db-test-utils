@@ -21,7 +21,6 @@
         <maven.source.plugin.version>3.4.0</maven.source.plugin.version>
         <maven.javadoc.plugin.version>2.10.4</maven.javadoc.plugin.version>
 
-        <hibernate-java8.version>5.0.11.Final</hibernate-java8.version>
         <lombok.version>1.16.10</lombok.version>
         <spring-context.version>4.3.3.RELEASE</spring-context.version>
         <spring-jdbc.version>4.3.4.RELEASE</spring-jdbc.version>
@@ -100,12 +99,6 @@
     </build>
 
     <dependencies>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-java8</artifactId>
-            <version>${hibernate-java8.version}</version>
-        </dependency>
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
