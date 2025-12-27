@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
-import org.unitils.reflectionassert.ReflectionAssert;
-import org.unitils.reflectionassert.ReflectionComparatorMode;
+import ua.ardas.esputnik.test.utils.AssertJReflection;
+import ua.ardas.esputnik.test.utils.ReflectionComparisonMode;
 
 import java.sql.ResultSetMetaData;
 import java.util.List;
@@ -45,7 +45,11 @@ public class DbChecker {
 		List<List<String>> actual = executeQuery(query, params);
 
 		try {
-			ReflectionAssert.assertReflectionEquals(expected.getData(), actual, ReflectionComparatorMode.IGNORE_DEFAULTS);
+			AssertJReflection.assertReflectionEquals(
+					expected.getData(),
+					actual,
+					ReflectionComparisonMode.IGNORE_DEFAULTS
+			);
 		} catch (AssertionFailedError e) {
 			StringBuilder sb = new StringBuilder("ExpectedData must be:\nnew ExpectedData()\n");
 
