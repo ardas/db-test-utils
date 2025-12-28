@@ -1,33 +1,28 @@
-# Sql Tracker Usage
+# Db Checker Usage
 
 * ***Add dependency***
 ```
 <dependency>
     <groupId>ua.ardas</groupId>
     <artifactId>db-test-utils</artifactId>
-    <version>1.0</version>
+    <version>${db-test-utils.version}</version>
     <scope>test</scope>
 </dependency>
 ```
 
-* ***Add into application-test.properties***
+* ***Use DbChecker in tests***
 ```
-spring.jpa.properties.hibernate.session_factory.statement_inspector=ua.ardas.db.sqltracker.StatementInspectorImpl
-```
+@Autowired
+private DbChecker dbChecker;
 
-* ***Reset before each test***
-```
-    @Before
-    public void setUp() throws Exception {
-        AssertSqlCount.reset();
-    }
-```
-
-* ***Check queries count***
-```
-    @Test
-    public void testCount() {
-        repository.selectUsersWithSubscriptions();        
-        AssertSqlCount.assertSelectCount(1);
-    }
+@Test
+public void check_contacts_row() {
+    dbChecker.checkDb(
+        new ExpectedData()
+            .addRow("1", "test@example.com")
+            .addRow("2", ExpectedData.NULL),
+        "select ContactId, Email from dbo.Contacts where ContactId in (?, ?)",
+        1, 2
+    );
+}
 ```

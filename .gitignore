@@ -1,3 +1,11 @@
 .idea
 *.iml
 target
+
+# jenv
+.java-version
+
+# macOS Finder metadata
+.DS_Store
+*/.DS_Store
+
