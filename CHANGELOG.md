@@ -11,6 +11,10 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 ### Fixed
 ### Security
 
+## [2.1.0] - 2025-12-28
+### Changed
+- Changed dependencies to align with the Spring Boot 2.7.18 baseline.
+
 ## [2.0.0] - 2025-12-28
 ### ⚠️ Breaking changes
 - Removed SqlTracker. Migration: remove any SqlTracker usage.
