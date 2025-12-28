@@ -18,11 +18,13 @@ private DbChecker dbChecker;
 @Test
 public void check_contacts_row() {
     dbChecker.checkDb(
-        new ExpectedData()
+        new CheckerExpectedData()
             .addRow("1", "test@example.com")
-            .addRow("2", ExpectedData.NULL),
+            .addRow("2", CheckerExpectedData.NULL),
         "select ContactId, Email from dbo.Contacts where ContactId in (?, ?)",
         1, 2
     );
 }
 ```
+
+Expected data can be created either via `new CheckerExpectedData()` or `new DbChecker.ExpectedData()`.
