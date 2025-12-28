@@ -44,7 +44,7 @@ public class DbChecker {
         return this.jdbcTemplate;
     }
 
-    public void checkDb(final ExpectedData expected, final String query, final Object... params) {
+    public void checkDb(final CheckerExpectedData expected, final String query, final Object... params) {
         try {
             await().atMost(10, SECONDS).untilAsserted(() -> DbChecker.this.checkDbByQuery(expected, query, params));
         } catch (ConditionTimeoutException error) {
@@ -54,23 +54,23 @@ public class DbChecker {
         }
     }
 
-    public void checkDbByQuery(ExpectedData expected, String query, Object... params) {
+    public void checkDbByQuery(CheckerExpectedData expected, String query, Object... params) {
         List<List<String>> actual = this.executeQuery(query, params);
         this.assertExpectedMatches(expected, actual);
     }
 
-    private void assertExpectedMatches(ExpectedData expected, List<List<String>> actual) {
+    private void assertExpectedMatches(CheckerExpectedData expected, List<List<String>> actual) {
         assertReflectionEquals(expected.getData(), actual, IGNORE_DEFAULTS);
     }
 
     private String buildExpectedDataMessage(List<List<String>> actual) {
-        StringBuilder sb = new StringBuilder("ExpectedData must be:\nnew ExpectedData()\n");
+        StringBuilder sb = new StringBuilder("ExpectedData must be:\nnew CheckerExpectedData()\n");
 
         for (List<String> list : actual) {
             sb.append(String.format(".addRow(\"%s\")\n", Joiner.on("\", \"").join(list)));
         }
 
-        return sb.toString().replaceAll("\"" + ExpectedData.NULL + "\"", "null");
+        return sb.toString().replaceAll("\"" + CheckerExpectedData.NULL + "\"", "null");
     }
 
     private List<List<String>> executeQuery(String query, Object... params) {
@@ -81,7 +81,7 @@ public class DbChecker {
 
             for (int i = 1; i <= columnCount; ++i) {
                 String val = rs.getString(i);
-                res.add(null == val ? ExpectedData.NULL : val);
+                    res.add(null == val ? CheckerExpectedData.NULL : val);
             }
 
             return res;
@@ -92,5 +92,12 @@ public class DbChecker {
     @SuppressWarnings("SqlSourceToSinkFlow")
     public SqlRowSet queryForRowSet(String query, Object... params) {
         return this.getJdbcTemplate().queryForRowSet(query, params);
+    }
+
+    /**
+     * @deprecated Use {@link CheckerExpectedData} instead.
+     */
+    @Deprecated
+    public static class ExpectedData extends CheckerExpectedData {
     }
 }

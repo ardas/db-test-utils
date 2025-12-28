@@ -33,9 +33,9 @@ class DbCheckerTest {
         jdbcTemplate.update("insert into sample (id, label) values (?, ?)", 1, "alpha");
         jdbcTemplate.update("insert into sample (id, label) values (?, ?)", 2, null);
 
-        ExpectedData expected = new ExpectedData()
+        CheckerExpectedData expected = new CheckerExpectedData()
             .addRow("1", "alpha")
-            .addRow("2", ExpectedData.NULL);
+            .addRow("2", CheckerExpectedData.NULL);
 
         assertThatCode(() ->
             dbChecker.checkDbByQuery(expected, "select id, label from sample order by id")
@@ -52,7 +52,7 @@ class DbCheckerTest {
                 TimeUnit.MILLISECONDS
             );
 
-            ExpectedData expected = new ExpectedData().addRow("1", "late");
+            CheckerExpectedData expected = new CheckerExpectedData().addRow("1", "late");
 
             assertThatCode(() ->
                 dbChecker.checkDb(expected, "select id, label from sample")
