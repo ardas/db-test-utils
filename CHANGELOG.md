@@ -11,6 +11,13 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 ### Fixed
 ### Security
 
+## [2.2.0] - 2026-05-05
+### ⚠️ Breaking changes
+- Raised the required Java baseline from 8 to 11. Migration: build and run tests that use `db-test-utils` on Java 11 or newer.
+
+### Changed
+- Updated published dependencies, including Guava `33.5.0-jre` and `es-test-utils` `2.1.0`.
+
 ## [2.1.0] - 2025-12-28
 ### Changed
 - Changed dependencies to align with the Spring Boot 2.7.18 baseline.
