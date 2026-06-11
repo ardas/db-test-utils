@@ -11,6 +11,14 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 ### Fixed
 ### Security
 
+## [2.5.0] - 2026-06-11
+### ⚠️ Breaking changes
+- Dropped Java 11 support; Java 21 is now required. Migration: build and run tests that use `db-test-utils` on Java 21 or newer.
+- Changed the Spring compatibility baseline from Spring Boot 2.7.18 / Spring Framework 5.3 to Spring Boot 3.5.x / Spring Framework 6.2. Migration: use this line from Boot 3.5-compatible test suites.
+
+### Changed
+- Changed Maven dependency management to import Spring Boot 3.5.14 and use Boot-managed Spring, JUnit Jupiter, AssertJ, Awaitility, H2, Lombok, Mockito, and SLF4J versions where applicable.
+
 ## [2.2.1] - 2026-06-11
 ### Changed
 - Changed Maven dependency management to import Spring Boot 2.7.18 and use Boot-managed Spring, Lombok, SLF4J, Awaitility, H2, and Mockito versions.
