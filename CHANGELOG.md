@@ -11,6 +11,10 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 ### Fixed
 ### Security
 
+## [2.2.1] - 2026-06-11
+### Changed
+- Changed Maven dependency management to import Spring Boot 2.7.18 and use Boot-managed Spring, Lombok, SLF4J, Awaitility, H2, and Mockito versions.
+
 ## [2.2.0] - 2026-05-05
 ### ⚠️ Breaking changes
 - Raised the required Java baseline from 8 to 11. Migration: build and run tests that use `db-test-utils` on Java 11 or newer.
