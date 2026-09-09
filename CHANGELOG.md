@@ -11,6 +11,10 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 ### Fixed
 ### Security
 
+## [2.5.1] - 2026-09-09
+### Changed
+- Updated the `es-test-utils` dependency from 2.1.0 to 2.1.2. (#8)
+
 ## [2.5.0] - 2026-06-11
 ### ⚠️ Breaking changes
 - Dropped Java 11 support; Java 21 is now required. Migration: build and run tests that use `db-test-utils` on Java 21 or newer.
