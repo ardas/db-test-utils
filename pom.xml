@@ -21,7 +21,7 @@
 
         <spring-boot.version>3.5.14</spring-boot.version>
         <guava.version>33.5.0-jre</guava.version>
-        <es-test-utils.version>2.1.0</es-test-utils.version>
+        <es-test-utils.version>2.1.2</es-test-utils.version>
     </properties>
 
     <dependencyManagement>
