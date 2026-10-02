@@ -1,5 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "reviewersFromCodeOwners": true,
+  "assignAutomerge": true,
   "extends": [
     "github>ardas/esputnik-renovate-config:libraries"
   ]
