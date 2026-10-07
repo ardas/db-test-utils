@@ -11,6 +11,10 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 ### Fixed
 ### Security
 
+## [2.5.2] - 2026-10-07
+### Changed
+- Updated the `es-test-utils` dependency from 2.1.2 to 2.1.3. (#10)
+
 ## [2.5.1] - 2026-09-09
 ### Changed
 - Updated the `es-test-utils` dependency from 2.1.0 to 2.1.2. (#8)
